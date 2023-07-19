@@ -3,7 +3,7 @@ on:
   push:
     branches: [ master ]
 jobs:
-  build and Push:
+  build_and_Push:
     runs-on: ubuntu-latest
     env:
       IMAGE_NAME: hello-77
