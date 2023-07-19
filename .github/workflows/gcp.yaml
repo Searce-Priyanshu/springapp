@@ -1,0 +1,32 @@
+name: Build and Push images to Artifact Registry
+on:
+  push:
+    branches: [ main ]
+jobs:
+  build-push:
+    name:
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: hello-77
+      PROJECT_ID: ce-ps3  
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2
+    - name: Build and tag Docker image
+      run: |
+          docker build -t hello-77 .
+          docker tag hello-77:latest us-central1-docker.pkg.dev/ce-ps3/devops-sprint/hello-77
+
+    - name: Configure Docker CLI
+      run: |
+        # echo ${{ secrets.GOOGLE_SERVICE_KEY }} > gcloud-service-key.json
+        #  gcloud auth activate-service-account -
+        
+        #   gcloud auth configure-docker devops-sprint
+          #  gcloud config set project ${{ secrets.GOOGLE_PROJECT_ID }}
+          echo Y | gcloud auth configure-docker devops-sprint
+
+   - name: Push Docker image to Artifact Registry and deploy on Cloud Run
+     run: |
+          docker push us-central1-docker.pkg.dev/ce-ps3/devops-sprint/hello-77:latest
+          gcloud run deploy github actions --platform=managed --allow-unauthenticated --image=us-central1-docker.pkg.dev/ce-ps3/devops-sprint/hello-77:latest --region=us-central1
