@@ -5,28 +5,24 @@ on:
 jobs:
   build_and_Push:
     runs-on: ubuntu-latest
-    env:
-      IMAGE_NAME: hello-77
-      PROJECT_ID: ce-ps3  
+      #    env:
+#      IMAGE_NAME: hello-77
     steps:
     - name: checkout
       uses: actions/checkout@v2
     - name: Build and tag Docker image
       run: |
           docker buildx build -t hello-77 .
-          docker tag hello-77:latest us-central1-docker.pkg.dev/ce-ps3/devops-sprint/hello-77
+          docker tag hello-77:latest us-central1-docker.pkg.dev/rare-signer-392411/cicd/hello-77
 
     - name: Configure Docker CLI
       run: |
-        # echo ${{ secrets.GOOGLE_SERVICE_KEY }} > gcloud-service-key.json
-        #  gcloud auth activate-service-account -
-        
-        #   gcloud auth configure-docker devops-sprint
-           gcloud auth  login --no-browser
-           gcloud config set project ce-ps3
-           echo Y | gcloud auth configure-docker us-central1-docker.pkg.dev
+          echo ${{ secrets.SERVICE_ACCOUNT_KEY }} > gcloud-service-key.json
+          gcloud auth activate-service-account --key-file=gcloud-service-key.json
+          gcloud config set project ${{ secrets.GOOGLE_PROJECT_ID }}
+          echo Y | gcloud auth configure-docker us-central1-docker.pkg.dev
 
     - name: Push Docker image to Artifact Registry and deploy on Cloud Run
       run: |
-          docker push us-central1-docker.pkg.dev/ce-ps3/devops-sprint/hello-77:latest
-          gcloud run deploy github actions --platform=managed --allow-unauthenticated --image=us-central1-docker.pkg.dev/ce-ps3/devops-sprint/hello-77:latest --region=us-central1
+         docker push us-central1-docker.pkg.dev/rare-signer-392411/cicd/hello-77
+         gcloud run deploy github actions --platform=managed --allow-unauthenticated --image=us-central1-docker.pkg.dev/rare-signer-392411/cicd:latest --region=us-central1
