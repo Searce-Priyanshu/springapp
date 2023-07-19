@@ -22,7 +22,9 @@ jobs:
         #  gcloud auth activate-service-account -
         
         #   gcloud auth configure-docker devops-sprint
-          #  gcloud config set project ${{ secrets.GOOGLE_PROJECT_ID }}
+          
+        #  gcloud config set project ${{ secrets.GOOGLE_PROJECT_ID }}
+          gcloud config set project ce-ps3
           echo Y | gcloud auth configure-docker us-central1-docker.pkg.dev
 
     - name: Push Docker image to Artifact Registry and deploy on Cloud Run
