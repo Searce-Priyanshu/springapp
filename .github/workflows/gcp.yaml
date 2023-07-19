@@ -25,7 +25,7 @@ jobs:
           
            curl https://sdk.cloud.google.com | bash -s -- --disable-prompts > /dev/null
            export PATH=${HOME}/google-cloud-sdk/bin:${PATH}
-           echo Y | gclod auth application-default login
+           echo Y | gcloud auth application-default login
            gcloud config set project ce-ps3
            echo Y | gcloud auth configure-docker us-central1-docker.pkg.dev
 
