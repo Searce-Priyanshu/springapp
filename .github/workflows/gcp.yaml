@@ -22,10 +22,7 @@ jobs:
         #  gcloud auth activate-service-account -
         
         #   gcloud auth configure-docker devops-sprint
-          
-           curl https://sdk.cloud.google.com | bash -s -- --disable-prompts > /dev/null
-           export PATH=${HOME}/google-cloud-sdk/bin:${PATH}
-           gcloud auth application-default login --no-launch-browser
+           gcloud auth  login --no-browser
            gcloud config set project ce-ps3
            echo Y | gcloud auth configure-docker us-central1-docker.pkg.dev
 
