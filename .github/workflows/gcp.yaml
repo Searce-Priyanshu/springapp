@@ -34,8 +34,13 @@ jobs:
          echo Y | gcloud auth configure-docker us-central1-docker.pkg.dev
          docker push us-central1-docker.pkg.dev/rare-signer-392411/cicd/hello-77
          gcloud run deploy cicd-deploy \
-         --image=us-central1-docker.pkg.dev/rare-signer-392411/cicd:latest \
+         --image=us-central1-docker.pkg.dev/rare-signer-392411/cicd-deploy:latest \
+         --platform managed \
          --region=us-central1
          --allow-unauthenticated \
          --service-account=${{ secrets.SERVICE_ACCOUNT_KEY }}
          
+   #      gcloud run deploy your-cloud-run-service-name \
+  #          --image gcr.io/your-gcp-project-id/your-cloud-run-service-name \
+ #           --platform managed \
+#        --region us-central1 
