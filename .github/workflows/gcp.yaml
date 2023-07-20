@@ -15,12 +15,18 @@ jobs:
           docker buildx build -t hello-77 .
           docker tag hello-77:latest us-central1-docker.pkg.dev/rare-signer-392411/cicd/hello-77
 
-    - name: Configure Docker CLI
-      run: |
-          echo ${{ secrets.SERVICE_ACCOUNT_KEY }} > gcloud-service-key.json
-          gcloud auth activate-service-account --key-file=gcloud-service-key.json
-          gcloud config set project ${{ secrets.GOOGLE_PROJECT_ID }}
-          echo Y | gcloud auth configure-docker us-central1-docker.pkg.dev
+          # - name: Configure Docker CLI
+      # run: |
+      #     echo ${{ secrets.SERVICE_ACCOUNT_KEY }} > gcloud-service-key.json
+      #     gcloud auth activate-service-account --key-file=gcloud-service-key.json
+      #     gcloud config set project ${{ secrets.GOOGLE_PROJECT_ID }}
+      #     echo Y | gcloud auth configure-docker us-central1-docker.pkg.dev
+
+    - name: Authenticate with GCP
+      uses: google-github-actions/setup-gcloud@v0.3.0
+      with:
+        project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
+        service_account_key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
 
     - name: Push Docker image to Artifact Registry and deploy on Cloud Run
       run: |
