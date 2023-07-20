@@ -27,8 +27,10 @@ jobs:
       with:
         project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
         service_account_key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
+      
 
     - name: Push Docker image to Artifact Registry and deploy on Cloud Run
       run: |
+         echo Y | gcloud auth configure-docker us-central1-docker.pkg.dev
          docker push us-central1-docker.pkg.dev/rare-signer-392411/cicd/hello-77
          gcloud run deploy github actions --platform=managed --allow-unauthenticated --image=us-central1-docker.pkg.dev/rare-signer-392411/cicd:latest --region=us-central1
