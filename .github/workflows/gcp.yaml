@@ -38,9 +38,7 @@ jobs:
          --platform managed \
          --region=us-central1
          --allow-unauthenticated \
-         --service-account=${{ secrets.SA_NAME }}
-         
-   #      gcloud run deploy your-cloud-run-service-name \
+         --service-account=github-test@rare-signer-392411.iam.gserviceaccount.com
   #          --image gcr.io/your-gcp-project-id/your-cloud-run-service-name \
  #           --platform managed \
 #        --region us-central1 
