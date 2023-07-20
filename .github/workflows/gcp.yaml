@@ -33,4 +33,9 @@ jobs:
       run: |
          echo Y | gcloud auth configure-docker us-central1-docker.pkg.dev
          docker push us-central1-docker.pkg.dev/rare-signer-392411/cicd/hello-77
-         gcloud run deploy github actions --platform=managed --allow-unauthenticated --image=us-central1-docker.pkg.dev/rare-signer-392411/cicd:latest --region=us-central1
+         gcloud run deploy cicd-deploy \
+         --image=us-central1-docker.pkg.dev/rare-signer-392411/cicd:latest \
+         --region=us-central1
+         --allow-unauthenticated \
+         --service-account=${{ secrets.SERVICE_ACCOUNT_KEY }}
+         
